@@ -18,7 +18,7 @@ import {
     Dimensions
 } from 'react-native';
 
-import px2dp from "../../util/index";
+import px2dp from "../../util/px2dp";
 import layout from "../../util/mixin";
 import gStyle from "../../gStyle";
 

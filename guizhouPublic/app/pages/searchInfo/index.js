@@ -16,7 +16,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-import px2dp from "../../util";
+import px2dp from "../../util/px2dp";
 import layout from "../../util/mixin";
 import gStyle from "../../gStyle";
 export default class homenew extends Component {
