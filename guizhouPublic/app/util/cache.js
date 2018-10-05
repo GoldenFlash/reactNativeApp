@@ -3,31 +3,49 @@
  * @author 王伟
  *time:2018-10-2
  */
-
+import { AsyncStorage } from "react-native"
 var postfix = '_deadtime';
 
-function put(key, value, time) {
-    // console.log(k);
-    wx.setStorageSync(k, v)
-    var seconds = parseInt(t);
+function getItem(key){
+    AsyncStorage.getItem(key,(res)=>{
+        return res
+    })
+}
+
+_retrieveData = async () => {
+    try {
+        const value = await AsyncStorage.getItem('TASKS');
+        if (value !== null) {
+            // We have data!!
+            console.log(value);
+        }
+    } catch (error) {
+        // Error retrieving data
+    }
+}
+
+function set(key, value, time) {
+    // console.log(key);
+    AsyncStorage.setItem(key, value)
+    var seconds = parseInt(time);
     if (seconds > 0) {
         var timestamp = Date.parse(new Date());
         timestamp = timestamp / 1000 + seconds;
         // console.log(timestamp);
-        wx.setStorageSync(k + postfix, timestamp + "")
+        AsyncStorage.setItem(key + postfix, timestamp + "")
     } else {
-        wx.removeStorageSync(k + postfix)
+        AsyncStorage.removeItem(key + postfix)
     }
 }
 
-function get(k, def) {
-    var deadtime = parseInt(wx.getStorageSync(k + postfix))
+function get(key, def) {
+    var deadtime = parseInt(getItem(key + postfix))
     if (deadtime) {
         if (parseInt(deadtime) < Date.parse(new Date()) / 1000) {
             if (def) { return def; } else { return; }
         }
     }
-    var res = wx.getStorageSync(k);
+    var res = getItem(key);
     if (res) {
         return res;
     } else {
@@ -35,9 +53,9 @@ function get(k, def) {
     }
 }
 
-function remove(k) {
-    wx.removeStorageSync(k);
-    wx.removeStorageSync(k + postfix);
+function remove(key) {
+    AsyncStorage.removeItem(key);
+    AsyncStorage.removeItem(key + postfix);
 }
 
 function clear() {
@@ -45,7 +63,7 @@ function clear() {
 }
 
 module.exports = {
-    put: put,
+    set: set,
     get: get,
     remove: remove,
     clear: clear,

@@ -7,7 +7,9 @@
 import request from "../common/request";
 function faceBook(){
     let data = {}
-    return request("https://facebook.github.io/react-native/movies.json",data,"GET")
+    var key= "faceBook"
+    var time = 60
+    return request("https://facebook.github.io/react-native/movies.json",data,"GET",key,time)
 }
 export default{
     faceBook

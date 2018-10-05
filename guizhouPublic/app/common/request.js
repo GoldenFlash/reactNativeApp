@@ -3,8 +3,15 @@
  * @author 王伟
  *time:2018-10-2
  */
-
+import cache from "../util/cache";
 import config from '../config/config'
+
+
+function setStorage(key,value,time){
+    if(key && time){
+        cache.set(key, value, time)
+    }
+}
 
 function objToString(obj) {
     let arr = []
@@ -15,7 +22,7 @@ function objToString(obj) {
     return arr.join("&")
 }
 
-let request = function (url,data={},method="GET"){
+let request = function (url,data={},method="GET",key,time){
     let requestObj = {};
     let dataStr;
     if(method==="GET"){
@@ -37,9 +44,19 @@ let request = function (url,data={},method="GET"){
             body: dataStr
         }
     }
-    
-    return fetch(url,requestObj).then((res)=>{
-        return res.json()
-    })
+
+    var storage = cache.get(key)
+    if(storage){
+        return new Promise((resolve,reject)=>{
+            resolve(storage)
+        })
+    }else{
+        return fetch(url, requestObj).then((res) => {
+            var value = res.json()
+            setStorage(key, value, time)
+            return res.json()
+        })
+    }
+   
 }
 export default request
