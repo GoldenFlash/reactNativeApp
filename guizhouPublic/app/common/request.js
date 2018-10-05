@@ -1,37 +1,45 @@
-function objToString(obj, arr = [], idx = 0) {
+/**
+ * fetch请求
+ * @author 王伟
+ *time:2018-10-2
+ */
+
+import config from '../config/config'
+
+function objToString(obj) {
+    let arr = []
     for (let item in obj) {
-        arr[idx++] = [item, obj[item]]
+        let str = `${item}=${obj[item]}`
+        arr.push(str)
     }
-    return new URLSearchParams(arr).toString()
+    return arr.join("&")
 }
 
 let request = function (url,data={},method="GET"){
-    let requestObj = {}
-    let dataStr = objToString(data)
+    let requestObj = {};
+    let dataStr;
     if(method==="GET"){
+        dataStr = objToString(data)
         var url = url + "?" + dataStr
         requestObj = {
             method: method,
-            headers: {
-                // Accept: "application/json",
-                // "Content-Type": "application/json"
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
+            headers: config.requestHeader
         }
     }else{
+        if (config.requestHeader["Content-Type"] === "application/json"){
+            dataStr = JSON.stringify(data)
+        }else{
+            dataStr = objToString(data)
+        }
         requestObj = {
             method: method,
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
+            headers: config.requestHeader,
             body: dataStr
         }
     }
     
-    fetch(url,requestObj).then((res)=>{
-        res.json()
-    }).then((resJson=>{
-        
-    }))
+    return fetch(url,requestObj).then((res)=>{
+        return res.json()
+    })
 }
+export default request

@@ -1,3 +1,9 @@
+/**
+ * mixin
+ * @author 王伟
+ *time:2018-10-2
+ */
+
 const layout = {
     // 这里的形参顺序遵循css中的 “上、右、下、左”
     margin(...arg) {
@@ -75,6 +81,7 @@ const layout = {
         return padding;
     },
     border(...arg){
+        //arg : style color width
         let border={}
         border={
             borderStyle: arg[0],

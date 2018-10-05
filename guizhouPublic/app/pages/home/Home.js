@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import api from '../../api/index'
 import {
     TouchableOpacity,
     StyleSheet,
@@ -25,6 +26,11 @@ let {width:deviceWidth,height:deviceHeight} = Dimensions.get("window")
 export default class homenew extends Component {
     constructor(props){
         super(props);
+    }
+    componentDidMount(){
+        api.faceBook().then((res)=>{
+            console.log("faceBook",res)
+        })
     }
     goDetail(navigation){
         this.props.navigation.navigate(navigation)
