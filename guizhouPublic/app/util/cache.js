@@ -6,32 +6,24 @@
 import { AsyncStorage } from "react-native"
 var postfix = '_deadtime';
 
-function getItem(key){
-    AsyncStorage.getItem(key,(res)=>{
-        return res
-    })
-}
-
-_retrieveData = async () => {
+async function getItem(key){
     try {
-        const value = await AsyncStorage.getItem('TASKS');
+        const value = await AsyncStorage.getItem(key);
         if (value !== null) {
-            // We have data!!
-            console.log(value);
+           return value
         }
     } catch (error) {
-        // Error retrieving data
+        console.log("error",error)
     }
 }
 
 function set(key, value, time) {
-    // console.log(key);
-    AsyncStorage.setItem(key, value)
+    console.log("setValue",value);
+    AsyncStorage.setItem(key, JSON.stringify(value))
     var seconds = parseInt(time);
     if (seconds > 0) {
         var timestamp = Date.parse(new Date());
         timestamp = timestamp / 1000 + seconds;
-        // console.log(timestamp);
         AsyncStorage.setItem(key + postfix, timestamp + "")
     } else {
         AsyncStorage.removeItem(key + postfix)
@@ -39,18 +31,31 @@ function set(key, value, time) {
 }
 
 function get(key, def) {
-    var deadtime = parseInt(getItem(key + postfix))
-    if (deadtime) {
-        if (parseInt(deadtime) < Date.parse(new Date()) / 1000) {
-            if (def) { return def; } else { return; }
-        }
-    }
-    var res = getItem(key);
-    if (res) {
-        return res;
-    } else {
-        return def;
-    }
+    return new Promise((resolve,reject)=>{
+        getItem(key + postfix).then((timestamp) => {
+            var deadtime = parseInt(timestamp)
+            if (deadtime) {
+                if (parseInt(deadtime) < Date.parse(new Date()) / 1000) {
+                    if(def) { 
+                        resolve(def); 
+                    }else {
+                        resolve(); 
+                    }
+                }else{
+                    getItem(key).then((res) => {
+                        if (res) {
+                            var storage = JSON.parse(res)
+                            console.log("getStorage", storage)
+                            resolve(storage)
+                        } else {
+                            resolve(def);
+                        }
+                    })
+                }
+            } 
+        }) 
+    })
+    
 }
 
 function remove(key) {
