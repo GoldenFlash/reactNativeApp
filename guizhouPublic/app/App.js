@@ -8,6 +8,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
+import SplashScreen from 'react-native-splash-screen'   
+
 //引入三个界面文件，并设置引入的类
 //引入主界面
 import HomeScene from '../app/pages/home/Home';
@@ -107,6 +109,11 @@ const Navigator = createStackNavigator({
 );
 
 export default class App extends React.Component {
+    componentDidMount(){
+        setTimeout(() => {
+            SplashScreen.hide()
+        }, 1000);
+    }
     render() {
         return <Navigator />;
     }
