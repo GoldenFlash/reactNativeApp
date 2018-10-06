@@ -104,7 +104,7 @@ const Navigator = createStackNavigator({
     
 },
 {
-    initialRouteName:"Home"
+    initialRouteName:"Login"
 }
 );
 

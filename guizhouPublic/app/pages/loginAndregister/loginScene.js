@@ -44,15 +44,17 @@ export default class LoginScene extends Component {
      * 登陆按钮，点击时验证输入的用户名和密码是否正确，正确时进入主页面，否则弹出提示
      */
     login = () => {
-        if (this.username == 'Admin' && this.password == '123') {
-            this.refs.username.blur();
-        	this.refs.password.blur();
-            const { navigate } = this.props.navigation;  //获取navigation的navigate方法
-            navigate('Home');  //跳转到注册过的Home界面
-        } else {
-            Alert.alert("登陆失败","用户名或密码不正确");  //弹出提示框
+        const {navigate} = this.props.navigation
+        navigate("Home")
+        // if (this.username == 'admin' && this.password == '123') {
+        //     this.refs.username.blur();
+        // 	this.refs.password.blur();
+        //     const { navigate } = this.props.navigation;  //获取navigation的navigate方法
+        //     navigate('Home');  //跳转到注册过的Home界面
+        // } else {
+        //     Alert.alert("登陆失败","用户名或密码不正确");  //弹出提示框
 
-        }
+        // }
     };
 
     /**
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
     },
     input: {
         width: 200,
-        height: 40,
+        // height: 40,
         fontSize: 20,
         color: '#fff',
     },
