@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import IconFont from 'react-native-vector-icons/IconFont';
 import api from '../../api/index'
 import {
     TouchableOpacity,
@@ -40,7 +41,7 @@ export default class homenew extends Component {
             <View style={styles.container}>
                 <TouchableHighlight onPress={this.goDetail.bind(this, "latestAction")}>
                     <View style={styles.item}>
-                        <Icon name="ios-person" size={30} color="#4F8EF7" />
+                        <IconFont name="message" size={30} color="#4F8EF7" />
                         <Text style={gStyle.alignCenter}>最新动态</Text>
                     </View>
                 </TouchableHighlight>
